@@ -1,16 +1,10 @@
-const express = require("express");
-const jsonServer = require("json-server");
-const cors = require("cors");
+const jsonServer = require("json-server"); // importing json-server library
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
+const port = process.env.PORT || 8080; //  chose port from here like 8080, 3001
 
-const app = express();
-const home = require("./routes/home");
-const manga = require("./routes/manga");
+server.use(middlewares);
+server.use(router);
 
-app.use(cors());
-app.use(express.json());
-
-app.use("/home", home);
-app.use("/manga", manga);
-
-const port = process.env.PORT || 5002;
-app.listen(port, () => console.log(`Listening to port ${port}`));
+server.listen(port);
